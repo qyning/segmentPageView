@@ -13,6 +13,7 @@
 		FF1DF69D1E66A3B30069A310 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF1DF69C1E66A3B30069A310 /* Assets.xcassets */; };
 		FF1DF6A01E66A3B30069A310 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF1DF69E1E66A3B30069A310 /* LaunchScreen.storyboard */; };
 		FF1DF6A91E66A4520069A310 /* segmentPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF6A81E66A4520069A310 /* segmentPageView.swift */; };
+		FF1DF6AB1E66AA6C0069A310 /* testPic.png in Resources */ = {isa = PBXBuildFile; fileRef = FF1DF6AA1E66AA6C0069A310 /* testPic.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		FF1DF69F1E66A3B30069A310 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF1DF6A11E66A3B30069A310 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF1DF6A81E66A4520069A310 /* segmentPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = segmentPageView.swift; sourceTree = "<group>"; };
+		FF1DF6AA1E66AA6C0069A310 /* testPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testPic.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		FF1DF6941E66A3B30069A310 /* segmentPageView */ = {
 			isa = PBXGroup;
 			children = (
+				FF1DF6AA1E66AA6C0069A310 /* testPic.png */,
 				FF1DF6A71E66A43A0069A310 /* Source */,
 				FF1DF6951E66A3B30069A310 /* AppDelegate.swift */,
 				FF1DF6971E66A3B30069A310 /* ViewController.swift */,
@@ -136,6 +139,7 @@
 			files = (
 				FF1DF6A01E66A3B30069A310 /* LaunchScreen.storyboard in Resources */,
 				FF1DF69D1E66A3B30069A310 /* Assets.xcassets in Resources */,
+				FF1DF6AB1E66AA6C0069A310 /* testPic.png in Resources */,
 				FF1DF69B1E66A3B30069A310 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
