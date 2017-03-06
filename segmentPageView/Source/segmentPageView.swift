@@ -19,6 +19,10 @@ struct segmentOption{
     let titleUnSelectedColor:UIColor!
     let indicatorHeight:CGFloat!
     let indicatorSelectedColor:UIColor!
+    let titleFontSize:CGFloat!
+    
+    let scrollEnable:Bool!
+    
     
     init(titles: [String],
          viewControllers:[String],
@@ -27,8 +31,10 @@ struct segmentOption{
          titleSelectedColor:UIColor?,
          titleUnSelectedColor:UIColor?,
          indicatorHeight:CGFloat?,
-         indicatorSelectedColor:UIColor?) {
-
+         indicatorSelectedColor:UIColor?,
+         titleFontSize:CGFloat?,
+         scrollEnable:Bool!) {
+        
         self.titles = titles
         self.viewControllers = viewControllers
         self.titleHeight = titleHeight ?? 40
@@ -37,13 +43,14 @@ struct segmentOption{
         self.titleUnSelectedColor = titleUnSelectedColor ?? UIColor(red: 200, green: 200, blue: 200)
         self.indicatorHeight = indicatorHeight ?? 2
         self.indicatorSelectedColor = indicatorSelectedColor ?? UIColor(red: 33, green: 149, blue: 244)
-        
+        self.titleFontSize = titleFontSize ?? 15
+        self.scrollEnable = scrollEnable
     }
 }
 
 
 class segmentPageView: UIView ,UIScrollViewDelegate{
-
+    
     open func sutupSegmentView(option:segmentOption) {
         self.titles = option.titles
         self.viewControllers = option.viewControllers
@@ -53,6 +60,8 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
         self.titleSelectedColor = option.titleSelectedColor
         self.titleUnSelectedColor = option.titleUnSelectedColor
         self.indicatorSelectedColor = option.indicatorSelectedColor
+        self.titleFontSize = option.titleFontSize
+        self.ScrollEnable = option.scrollEnable
         if self.titles.count > 5{
             self.titleWidth = self.bounds.size.width*0.2
         }else{
@@ -63,7 +72,7 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
         addTitles()
         addViewControllS()
     }
-
+    
     private var titles:[String]!
     
     private var viewControllers:[String]!
@@ -76,6 +85,8 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
     
     private var titleWidth:CGFloat!
     
+    private var titleFontSize:CGFloat!
+    
     private var titleBackgoundColor:UIColor!
     
     private var titleSelectedColor:UIColor!
@@ -87,12 +98,14 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
     private var titleBtns = [UIButton]()
     
     private var IndicatorLine: UIView!
-
+    
+    private var ScrollEnable: Bool!
+    
     private var index = 0{
         didSet{
             if titles.count > 5 {
                 if index >= 2 && index < titles.count-2{
-                     self.titleScrollerView.setContentOffset(CGPoint(x: self.titleWidth*CGFloat(index-2), y: 0), animated: true)
+                    self.titleScrollerView.setContentOffset(CGPoint(x: self.titleWidth*CGFloat(index-2), y: 0), animated: true)
                     
                 }else if self.index >= self.titles.count-2{
                     self.titleScrollerView.setContentOffset(CGPoint(x: self.titleWidth*CGFloat(self.titles.count-5), y: 0), animated: true)
@@ -116,7 +129,7 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-
+    
     func selectIndex(btn:UIButton) {
         titleIndex = btn.tag
     }
@@ -126,6 +139,7 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
             btn.tag = index
             btn.frame = CGRect(x: self.titleWidth*CGFloat(index), y: 0, width: self.titleWidth, height: self.titleHeight-IndicatorHeight)
             btn.setTitle(self.titles[index], for: .normal)
+            btn.titleLabel?.font = UIFont.systemFont(ofSize: self.titleFontSize)
             let titleColor = index == 0 ? titleSelectedColor : titleUnSelectedColor
             btn.setTitleColor(titleColor, for: .normal)
             btn.backgroundColor = UIColor.clear
@@ -143,16 +157,17 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
     private func addViewControllS() {
         for index in 0 ..< self.viewControllers.count {
             if let vc = swiftClassFromString(className: self.viewControllers[index]){
+                VCs.append(vc)
                 vc.view.frame = CGRect(x: self.bounds.size.width*CGFloat(index), y: 0, width: self.bounds.size.width, height: self.bounds.size.height - self.titleHeight)
                 self.contentScrollerView.addSubview(vc.view)
             }
         }
     }
-
+    
     lazy var titleScrollerView: UIScrollView! = {
         let scrollView = UIScrollView()
         scrollView.delegate = self
-         scrollView.tag = 512
+        scrollView.tag = 512
         scrollView.scrollsToTop = false
         let count = CGFloat(self.titles.count)
         scrollView.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.titleHeight)
@@ -171,6 +186,7 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
         scrollView.autoresizesSubviews = false
         scrollView.delegate = self
         scrollView.scrollsToTop = false
+        scrollView.isScrollEnabled = self.ScrollEnable;
         scrollView.isPagingEnabled = true
         scrollView.frame = CGRect(x: 0, y: self.titleScrollerView.bounds.size.height, width: self.bounds.size.width, height: self.bounds.size.height-self.titleHeight)
         scrollView.contentSize = CGSize(width: self.bounds.size.width * CGFloat(self.titles.count), height: self.bounds.size.height-self.titleHeight)
@@ -185,8 +201,8 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.tag == 1024{
             let contentOffsetX = scrollView.contentOffset.x
-            let centerX = self.titleWidth*0.5 + self.titleWidth*CGFloat((contentOffsetX / self.bounds.size.width))
-            self.IndicatorLine.center = CGPoint(x: centerX, y: self.IndicatorLine.center.y)
+            self.IndicatorLine.center = CGPoint(x: self.titleWidth*0.5 + self.titleWidth*CGFloat((contentOffsetX / self.bounds.size.width)), y: self.titleHeight-self.IndicatorHeight*0.5)
+            
             let num = Int(contentOffsetX / self.bounds.size.width+0.5)
             
             if num == index {
@@ -195,7 +211,7 @@ class segmentPageView: UIView ,UIScrollViewDelegate{
             titleBtns[index].setTitleColor(titleUnSelectedColor, for: .normal)
             index = num
             titleBtns[index].setTitleColor(titleSelectedColor, for: .normal)
-
+            
         }
     }
 }

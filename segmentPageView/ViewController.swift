@@ -17,7 +17,8 @@ class ViewController: UIViewController {
         let VCs = ["UITableViewController","UITableViewController","UITableViewController","UITableViewController","UITableViewController","UITableViewController","UITableViewController","RTStatusticsVC","UITableViewController","UITableViewController","UITableViewController"];
         
         let PagerView = segmentPageView(frame: CGRect(x: 0, y: 20, width: self.view.bounds.size.width, height: self.view.bounds.size.height-20))
-        PagerView.sutupSegmentView(option: segmentOption(titles: titles, viewControllers: VCs, titleHeight: 44, titleBackgoundColor: nil, titleSelectedColor: nil, titleUnSelectedColor: nil, indicatorHeight: 3, indicatorSelectedColor: nil))
+     
+        PagerView.sutupSegmentView(option: segmentOption(titles: titles, viewControllers: VCs, titleHeight: 44, titleBackgoundColor: nil, titleSelectedColor: nil, titleUnSelectedColor: nil, indicatorHeight: 3, indicatorSelectedColor: nil, titleFontSize: 14, scrollEnable: true))
         
         self.view.addSubview(PagerView);
     }
